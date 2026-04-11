@@ -1,4 +1,4 @@
-const WorkoutLog = require("../models/workoutLog");
+const WorkoutLog = require('../models/workoutLog');
 
 
 const createWorkoutLog = async (req, res) => {
@@ -15,11 +15,11 @@ const getWorkoutLogs = async (req, res) => {
     try {
         const workoutLogs = await WorkoutLog.find()
             .populate('workoutId', 'name date')
-            .populate('exerciseId', 'name sets reps');
+            .populate('exerciseId', 'name');
 
         res.status(200).json(workoutLogs);
     } catch(error) {
-        res.status(400).json({message: error.message });
+        res.status(500).json({message: error.message });
     }
-}
+};
 module.exports = { createWorkoutLog, getWorkoutLogs };

@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/exercises', exerciseRoutes);
 app.use('/api/workouts', workoutRoutes);
-app.use('/api/workoutLog', workoutLogRoutes);
+app.use('/api/workoutLogs', workoutLogRoutes);
 
 // Use connection string from .env file
 mongoose.connect(process.env.MONGO_URI)

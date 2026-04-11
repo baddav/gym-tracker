@@ -9,4 +9,13 @@ const createWorkout = async (req, res) => {
         res.status(400).json({message: error.message });
     }
 };
-module.exports = { createWorkout };
+
+const getWorkout = async (req, res) => {
+    try {
+        const workouts = await Workout.find();
+        res.status(200).json(workouts);
+    } catch (error) {
+        res.status(400).json({message: error.message });
+    }
+};
+module.exports = { createWorkout, getWorkout };

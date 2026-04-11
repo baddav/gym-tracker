@@ -9,4 +9,13 @@ const createExercise = async (req, res) => {
         res.status(400).json({message: error.message });
     }
 };
-module.exports = { createExercise };
+
+const getExercise = async (req, res) => {
+    try {
+        const exercises = await Exercise.find();
+        res.status(200).json(exercises);
+    } catch (error) {
+        res.status(400).json({message: error.message });
+    }
+};
+module.exports = { createExercise, getExercise };

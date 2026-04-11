@@ -1,17 +1,22 @@
-// 1. Load the .env variables immediately
+// Load the .env variables
 require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose'); // Use mongoose, NOT mongodb!
 const cors = require('cors');
 
+// Load the routes
+const exerciseRoutes = require('./routes/exerciseRoutes');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
 app.use(cors());
 app.use(express.json());
+app.use('/api/exercises', exerciseRoutes);
 
-// 2. Safely use the connection string from your .env file
+// Use connection string from .env file
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('Successfully connected to MongoDB Atlas');

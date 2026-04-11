@@ -7,6 +7,8 @@ const cors = require('cors');
 
 // Load the routes
 const exerciseRoutes = require('./routes/exerciseRoutes');
+const workoutRoutes = require('./routes/workoutRoutes');
+const workoutLogRoutes = require('./routes/workoutLogRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +17,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use('/api/exercises', exerciseRoutes);
+app.use('/api/workouts', workoutRoutes);
+app.use('/api/workoutLog', workoutLogRoutes);
 
 // Use connection string from .env file
 mongoose.connect(process.env.MONGO_URI)

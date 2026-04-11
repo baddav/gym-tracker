@@ -6,7 +6,7 @@ const createExercise = async (req, res) => {
         const savedExercise = await newExercise.save();
         res.status(201).json(savedExercise);
     } catch(error) {
-        res.status(400).json({message: errror.message });
+        res.status(400).json({message: error.message });
     }
 };
 module.exports = { createExercise };

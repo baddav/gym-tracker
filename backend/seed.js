@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Exercise = require('./models/exercise');
+const Workouts = require('./models/workouts');
 
 const seedExercises = [
     {
@@ -53,17 +54,34 @@ const seedExercises = [
     }
 ];
 
+const seedWorkouts = [
+    {
+        name: "Full Body Strength",
+        notes: "Focus on compound lifts, 3 sets of 5 reps each."
+    },
+    {
+        name: "Upper Body Hypertrophy",
+        notes: "Higher reps for muscle growth, 4 sets of 10-12 reps."
+    },
+    {
+        name: "Leg Day",
+        notes: "Emphasize lower body strength and hypertrophy."
+    }
+];
+
 const runSeed = async () => {
     try {
         console.log("Connecting to MongoDB...");
         await mongoose.connect(process.env.MONGO_URI);
         console.log("Connected!");
 
-        console.log("Deleting old exercises...");
+        console.log("Deleting old exercises and workouts...");
         await Exercise.deleteMany({});
+        await Workouts.deleteMany({});
 
-        console.log("Adding new exercises...");
+        console.log("Adding new exercises and workouts...");
         await Exercise.insertMany(seedExercises);
+        await Workouts.insertMany(seedWorkouts);
 
         console.log("Success! The database has been seeded.");
         process.exit(0);

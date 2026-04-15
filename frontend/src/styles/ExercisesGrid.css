@@ -1,0 +1,17 @@
+.exercise-list {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 1rem;
+    margin: 2rem;
+}
+
+.exercise-entry {
+    padding: 1rem;
+    background-color: lightblue;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.exercise-entry span {
+    align-items: center;
+}

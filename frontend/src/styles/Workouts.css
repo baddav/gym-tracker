@@ -1,0 +1,18 @@
+.create-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.create-button button {
+    padding: 0.5rem;
+    border-radius: 0.7rem;
+    background-color: white;
+}
+
+.create-button button:hover {
+    background-color: black;
+    color: white;
+    scale: 110%;
+}

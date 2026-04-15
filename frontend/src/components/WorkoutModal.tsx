@@ -9,8 +9,38 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
     const [workoutName, setWorkoutName] = useState("");
     const [workoutNotes, setWorkoutNotes] = useState("");
 
-    const handleSave = () => {
-        console.log("POST Request: Speichere", workoutName, workoutNotes);
+    const handleSave = async () => {
+        if (!workoutName.trim()) {
+            alert("pls enter a workout name!")
+            return;
+        }
+
+        const newWorkout = {
+            name: workoutName,
+            notes: workoutNotes,
+            date: new Date().toISOString()
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/api/workouts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newWorkout)
+            });
+
+            if (response.ok) {
+                console.log("Workout succesfully postet");
+                onClose();
+            } else {
+                console.log("Failed to post new workout")
+                alert("Something went wrong with posting")
+            }
+        } catch(error) {
+            console.error("Error connecting to the server:", error);
+            alert("Could not connect to the backend");
+        }
     }
 
     return (

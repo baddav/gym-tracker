@@ -6,12 +6,24 @@
 }
 
 .exercise-entry {
+    display: flex;
     padding: 1rem;
     background-color: lightblue;
     border-radius: 0.5rem;
-    text-align: center;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.exercise-entry span {
-    align-items: center;
+
+.exercise-entry button {
+    color: white;
+    background: darkgreen;
+    border: darkgreen;
+    border-radius: 0.5rem;
+    padding: 0.4rem;
+}
+
+.exercise-entry button:hover {
+    background-color: green;
+    scale: 120%;
 }

@@ -40,11 +40,16 @@ export default function ExercisesGrid() {
                         {exercises.map((exercise) => (
                             <div key={exercise._id} className="exercise-entry">
                                 <strong>{exercise.name}</strong>
+                                <button>
+                                    Details
+                                </button>
                             </div>
                         ))}
                     </div>
+
                 )
             )}
         </div>
     )
 };
+

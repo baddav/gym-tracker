@@ -2,7 +2,11 @@ import {useEffect, useState} from "react";
 import type {Exercise} from "../types/interface.ts";
 import '../styles/ExercisesGrid.css'
 
-export default function ExercisesGrid() {
+interface ExerciseGridProps {
+    onEditClick: (exercise: Exercise) => void;
+}
+
+export default function ExercisesGrid({ onEditClick }: ExerciseGridProps) {
 
     const [exercises, setExercises] = useState<Exercise[]>([]);
     const [loading, setLoading] = useState(true);
@@ -40,7 +44,7 @@ export default function ExercisesGrid() {
                         {exercises.map((exercise) => (
                             <div key={exercise._id} className="exercise-entry">
                                 <strong>{exercise.name}</strong>
-                                <button>
+                                <button onClick={() => onEditClick(exercise)}>
                                     Details
                                 </button>
                             </div>

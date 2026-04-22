@@ -1,43 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/ExerciseModal.css'
 
 interface ExerciseModalProps {
     onClose: () => void;
+    initialData?: any;
 }
 
-export default function ExerciseModal({onClose}:ExerciseModalProps) {
+export default function ExerciseModal({onClose, initialData}:ExerciseModalProps) {
     const [exerciseName, setExerciseName] = useState("");
     const [exerciseDescription, setExerciseDescription] = useState("");
     const [exerciseMuscleGroup, setExerciseMuscleGroup] = useState("");
-    const [exercsieDifficulty, setExerciseDifficutly] = useState("");
+    const [exerciseDifficulty, setExerciseDifficutly] = useState("");
+
+    const isEditing = !!initialData;
+
+    useEffect(() => {
+        if (initialData) {
+            setExerciseName(initialData.name);
+            setExerciseDescription(initialData.description);
+            setExerciseMuscleGroup(initialData.muscleGroup);
+            setExerciseDifficutly(initialData.difficulty);
+        }
+    }, [initialData]);
 
     const handleSave = async () => {
-        if (!exerciseName.trim()|| !exerciseDescription.trim() || !exerciseMuscleGroup.trim() || !exercsieDifficulty.trim()) {
+        if (!exerciseName.trim()|| !exerciseDescription.trim() || !exerciseMuscleGroup.trim() || !exerciseDifficulty.trim()) {
             alert("pls enter a exercise name!")
             return;
         }
 
-        const newExercise = {
+        const exerciseData = {
             name: exerciseName,
             description: exerciseDescription,
             muscleGroup: exerciseMuscleGroup,
-            difficulty: exercsieDifficulty,
+            difficulty: exerciseDifficulty,
         };
 
         try {
-            const response = await fetch('http://localhost:3000/api/exercises', {
-                method: 'POST',
+            const url = isEditing
+                ? `http://localhost:3000/api/exercises/${initialData._id}`
+                : 'http://localhost:3000/api/exercises';
+
+            const method = isEditing ? 'PUT' : 'POST';
+
+            const response = await fetch(url, {
+                method: method,
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(newExercise)
+                body: JSON.stringify(exerciseData)
             });
 
+
             if (response.ok) {
-                console.log("Exercise succesfully postet");
+                console.log(`Exercise succesfully ${isEditing ? 'updated' : 'posted'}`);
                 onClose();
             } else {
-                console.log("Failed to post new exercise")
                 alert("Something went wrong with posting")
             }
         } catch(error) {
@@ -49,7 +67,7 @@ export default function ExerciseModal({onClose}:ExerciseModalProps) {
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <h2>New Exercise</h2>
+                <h2>{isEditing ? 'Edit Exercise' : 'New Exercise'}</h2>
 
                 <input
                     type="text"
@@ -64,7 +82,8 @@ export default function ExerciseModal({onClose}:ExerciseModalProps) {
                     onChange={(e) => setExerciseDescription(e.target.value)}
                 />
 
-                <select name="muscleGroups" onChange={(e) => setExerciseMuscleGroup(e.target.value)}>
+                <select name="muscleGroups" value={exerciseMuscleGroup} onChange={(e) => setExerciseMuscleGroup(e.target.value)}>
+                    <option value="" disabled>Select Muscle Group...</option>
                     <option value="Chest">Chest</option>
                     <option value="Back">Back</option>
                     <option value="Legs">Legs</option>
@@ -73,7 +92,8 @@ export default function ExerciseModal({onClose}:ExerciseModalProps) {
                     <option value="Core">Core</option>
                 </select>
 
-                <select name="difficulty" onChange={(e) => setExerciseDifficutly(e.target.value)}>
+                <select name="difficulty" value={exerciseDifficulty} onChange={(e) => setExerciseDifficutly(e.target.value)}>
+                    <option value="" disabled>Select a difficulty...</option>
                     <option>Easy</option>
                     <option>Medium</option>
                     <option>Hard</option>
@@ -82,7 +102,7 @@ export default function ExerciseModal({onClose}:ExerciseModalProps) {
 
                 <div className="modal-actions">
                     <button className="cancel-button" onClick={onClose}>Cancel</button>
-                    <button className="save-bautton" onClick={handleSave}>Save</button>
+                    <button className="save-bautton" onClick={handleSave}>{isEditing ? 'Update' : 'Save'}</button>
                 </div>
             </div>
         </div>

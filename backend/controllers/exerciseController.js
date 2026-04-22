@@ -42,4 +42,4 @@ const updateExercise = async (req, res) => {
         res.status(400).json({message: error.message });
     }
 }
-module.exports = { createExercise, getExercise: getExercises };
+module.exports = { createExercise, getExercise: getExercises, updateExercise };

@@ -42,4 +42,22 @@ const updateExercise = async (req, res) => {
         res.status(400).json({message: error.message });
     }
 }
-module.exports = { createExercise, getExercise: getExercises, updateExercise };
+
+const deleteExercise = async (req, res) => {
+
+    const {id} = req.params;
+
+    try {
+        const deletedExercise = await Exercise.findByIdAndDelete(id)
+
+        if (!deletedExercise) {
+            return res.status(404).json({message: "Exercise not found"});
+        }
+
+        res.status(200).json(deletedExercise);
+    } catch (error) {
+        res.status(400).json({message: error.message});
+    }
+
+}
+module.exports = { createExercise, getExercise: getExercises, updateExercise, deleteExercise };

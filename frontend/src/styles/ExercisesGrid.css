@@ -15,7 +15,7 @@
 }
 
 
-.exercise-entry button {
+.button-detail {
     color: white;
     background: darkgreen;
     border: darkgreen;
@@ -23,7 +23,21 @@
     padding: 0.4rem;
 }
 
-.exercise-entry button:hover {
+.button-detail:hover {
     background-color: green;
+    scale: 120%;
+}
+
+.button-delete {
+    color: white;
+    background: darkred;
+    border: darkred;
+    border-radius: 0.5rem;
+    padding: 0.4rem;
+    margin-left: 1rem;
+}
+
+.button-delete:hover {
+    background-color: red;
     scale: 120%;
 }

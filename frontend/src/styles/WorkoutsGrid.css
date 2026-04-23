@@ -1,0 +1,13 @@
+.workout-list {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 1rem;
+    margin: 2rem;
+}
+
+.workout-entry {
+    padding: 1rem;
+    background-color: lightblue;
+    border-radius: 0.5rem;
+    text-align: center;
+}

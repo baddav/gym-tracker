@@ -18,4 +18,20 @@ const getWorkouts = async (req, res) => {
         res.status(500).json({message: error.message });
     }
 };
-module.exports = { createWorkout, getWorkout: getWorkouts };
+
+const deleteWorkout = async(req, res) => {
+    const {id} = req.params;
+
+    try {
+        const deletedWorkout = await Workout.findByIdAndDelete(id);
+
+        if (!deletedWorkout) {
+            return res.status(404).json({message: "Workout not found"});
+        }
+
+        res.status(200).json(deletedWorkout);
+    } catch (error) {
+        res.status(400).json({message: error.message});
+    }
+}
+module.exports = { createWorkout, getWorkout: getWorkouts, deleteWorkout };

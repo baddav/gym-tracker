@@ -8,6 +8,28 @@ export default function WorkoutsGrid() {
     const [workouts, setWorkouts] = useState<Workout[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const handleDelete = async(workoutId: string) => {
+
+        const isConfirmed = window.confirm("Do you wanna delete this workout?");
+        if (!isConfirmed) return;
+
+        try {
+
+            const response = await fetch(`http://localhost:3000/api/workouts/${workoutId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                setWorkouts((prevWorkouts) => prevWorkouts.filter((ex) => ex._id !== workoutId));
+            }
+            else {
+                alert("Error while deleting workout")
+            }
+        } catch(error) {
+            alert("No connection to server")
+        }
+    }
+
     useEffect(() => {
         const fetchWorkouts = async () => {
             try {
@@ -42,6 +64,14 @@ export default function WorkoutsGrid() {
                                 <strong>
                                     {workout.name}
                                 </strong>
+                                <div className="workout-entry-btns">
+                                    <button className="button-detail">
+                                        Start
+                                    </button>
+                                    <button className="button-delete" onClick={() => handleDelete(workout._id!)}>
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
                         ))}
                     </div>

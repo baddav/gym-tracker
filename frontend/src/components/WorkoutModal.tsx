@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../styles/WorkoutModal.css'
+import ExerciseSearch from "./ExerciseSearch";
 
 interface WorkoutModalProps {
     onClose: () => void;
@@ -60,6 +61,8 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
                     value={workoutNotes}
                     onChange={(e) => setWorkoutNotes(e.target.value)}
                 />
+
+                <ExerciseSearch/>
 
                 <div className="modal-actions">
                     <button className="cancel-button" onClick={onClose}>Cancel</button>

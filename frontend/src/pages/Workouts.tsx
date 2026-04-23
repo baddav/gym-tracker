@@ -11,7 +11,7 @@ export default function Workouts (){
         <div className="workout-page">
             <div className="create-button">
                 <button onClick={() => setIsModalOpen(true)}>
-                    <strong>Create</strong>
+                    <strong>Start</strong>
                 </button>
             </div>
             <WorkoutsGrid/>

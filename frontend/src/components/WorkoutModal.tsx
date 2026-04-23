@@ -63,7 +63,7 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
 
                 <div className="modal-actions">
                     <button className="cancel-button" onClick={onClose}>Cancel</button>
-                    <button className="save-bautton" onClick={handleSave}>Save</button>
+                    <button className="save-button" onClick={handleSave}>Save</button>
                 </div>
             </div>
         </div>

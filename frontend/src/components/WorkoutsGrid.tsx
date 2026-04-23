@@ -20,7 +20,7 @@ export default function WorkoutsGrid() {
                 const data = await response.json();
                 setWorkouts(data);
             } catch (error) {
-                console.error('Error fetching exercises:', error);
+                console.error('Error fetching workouts:', error);
             } finally {
                 setLoading(false);
             }

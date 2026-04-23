@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import '../styles/ExerciseModal.css'
+import type { Exercise } from "../types/interface.ts"
 
 interface ExerciseModalProps {
     onClose: () => void;
-    initialData?: any;
+    initialData?: Exercise | null;
 }
 
 export default function ExerciseModal({onClose, initialData}:ExerciseModalProps) {
@@ -102,7 +103,7 @@ export default function ExerciseModal({onClose, initialData}:ExerciseModalProps)
 
                 <div className="modal-actions">
                     <button className="cancel-button" onClick={onClose}>Cancel</button>
-                    <button className="save-bautton" onClick={handleSave}>{isEditing ? 'Update' : 'Save'}</button>
+                    <button className="save-button" onClick={handleSave}>{isEditing ? 'Update' : 'Save'}</button>
                 </div>
             </div>
         </div>

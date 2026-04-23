@@ -1,7 +1,7 @@
 import WorkoutsGrid from "../components/WorkoutsGrid.tsx";
 import WorkoutModal from "../components/WorkoutModal.tsx";
 import {useState} from "react";
-import '../styles/Workouts.css'
+import '../styles/Button.css'
 
 export default function Workouts (){
     const [isModalOpen, setIsModalOpen] = useState(false);

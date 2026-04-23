@@ -1,4 +1,4 @@
-import '../styles/ExercisesGrid.css';
+import '../styles/Button.css';
 import ExercisesGrid from "../components/ExercisesGrid.tsx";
 import ExerciseModal from "../components/ExerciseModal.tsx";
 import {useState} from "react";

@@ -1,7 +1,11 @@
 import {useEffect, useState} from 'react';
 import type {Exercise} from "../types/interface.ts";
 
-export default function ExerciseSearch() {
+interface ExerciseSearchProps {
+    onSelectedExercise: (exercise: Exercise) => void;
+}
+
+export default function ExerciseSearch( {onSelectedExercise}:ExerciseSearchProps) {
 
     const [input, setInput] = useState<string>("");
     const [allExercises, setAllExercises] = useState<Exercise[]>([]);
@@ -57,7 +61,14 @@ export default function ExerciseSearch() {
                     </div>
                 ) : (
                     searchResults.map((searchResult) => (
-                        <div key={searchResult._id} className="searchResult-entry">
+                        <div
+                            key={searchResult._id}
+                            className="searchResult-entry"
+                            onClick={ () => {
+                                onSelectedExercise(searchResult);
+                                setInput("");
+                                setSearchResults([]);
+                            }}>
                             <strong>{searchResult.name}</strong>
                         </div>
                     ))

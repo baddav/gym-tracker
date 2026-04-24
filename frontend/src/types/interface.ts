@@ -21,3 +21,11 @@ export interface WorkoutLog {
     reps: number;
     weight: number;
 }
+
+export interface PendingExercise {
+    exerciseId: string;
+    name: string;
+    sets: number;
+    reps: number;
+    weight: number;
+}

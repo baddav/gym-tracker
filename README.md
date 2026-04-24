@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# Gym-Tracker application
+The gym-tracker is an application to keep track of your workouts and add exercises to those workouts. It is for people who are going on a regular basis to the gym and want to improve their training. You can save the exact exercises with your reps, sets and weights you used.  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Setup
+To start this application on your local machine, follow these steps:
 
-Currently, two official plugins are available:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/baddav/gym-tracker.git
+   ```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+2. **Install dependencies**
+   You need to install the dependencies for the root, frontend, and backend folders.
+   ```bash
+   # In the root folder
+   npm install
 
-## React Compiler
+   # In the frontend folder
+   cd frontend
+   npm install
+   cd ..
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+   # In the backend folder
+   cd backend
+   npm install
+   cd ..
+   ```
 
-## Expanding the ESLint configuration
+3. **Environment Variables**
+   Create a `.env` file inside the `backend` folder and add your MongoDB connection string:
+   ```env
+   MONGO_URI=your_mongodb_connection_string
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+4. **Run the application**
+   From the root folder, run:
+   ```bash
+   npm start
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```

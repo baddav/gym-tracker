@@ -29,3 +29,11 @@ export interface PendingExercise {
     reps: number;
     weight: number;
 }
+
+export interface WorkoutWithLogs {
+    _id: string;
+    name: string;
+    date: string;
+    notes?: string;
+    logs: WorkoutLog[];
+}

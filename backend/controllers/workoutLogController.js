@@ -1,4 +1,5 @@
 const WorkoutLog = require('../models/workoutLog');
+const Workout = require('../models/workouts')
 
 
 const createWorkoutLog = async (req, res) => {
@@ -22,4 +23,19 @@ const getWorkoutLogs = async (req, res) => {
         res.status(500).json({message: error.message });
     }
 };
-module.exports = { createWorkoutLog, getWorkoutLogs };
+
+const getWorkoutsWithLogs = async(req, res) => {
+    try {
+        const workouts = await Workout.find().lean();
+        const workoutsWithLogs = await Promise.all(workouts.map(async (workout) => {
+            const logs = await WorkoutLog.find({workoutId: workout._id}).populate('exerciseId', 'name').lean();
+            return {...workout, logs: logs};
+        }));
+
+        res.status(200).json(workoutsWithLogs)
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+
+module.exports = { createWorkoutLog, getWorkoutLogs, getWorkoutsWithLogs };

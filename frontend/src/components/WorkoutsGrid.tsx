@@ -1,26 +1,22 @@
 import {useEffect, useState} from "react";
-import type {Workout} from "../types/interface.ts";
+import type { WorkoutWithLogs } from "../types/interface.ts";
 import "../styles/WorkoutsGrid.css"
 
-
-
 export default function WorkoutsGrid() {
-    const [workouts, setWorkouts] = useState<Workout[]>([]);
+    const [workoutsWithLogs, setWorkoutsWithLogs] = useState<WorkoutWithLogs[]>([]);
     const [loading, setLoading] = useState(true);
 
     const handleDelete = async(workoutId: string) => {
-
         const isConfirmed = window.confirm("Do you wanna delete this workout?");
         if (!isConfirmed) return;
 
         try {
-
             const response = await fetch(`http://localhost:3000/api/workouts/${workoutId}`, {
                 method: 'DELETE',
             });
 
             if (response.ok) {
-                setWorkouts((prevWorkouts) => prevWorkouts.filter((ex) => ex._id !== workoutId));
+                setWorkoutsWithLogs((prevWorkouts) => prevWorkouts.filter((workout) => workout._id !== workoutId));
             }
             else {
                 alert("Error while deleting workout")
@@ -31,23 +27,23 @@ export default function WorkoutsGrid() {
     }
 
     useEffect(() => {
-        const fetchWorkouts = async () => {
+        const fetchWorkoutsWithLogs = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/workouts');
+                const response = await fetch('http://localhost:3000/api/workoutLogs/full');
                 if (!response.ok) {
                     console.error('Network response was not ok:', response.status);
                     return;
                 }
 
                 const data = await response.json();
-                setWorkouts(data);
+                setWorkoutsWithLogs(data);
             } catch (error) {
-                console.error('Error fetching workouts:', error);
+                console.error('Error fetching workoutsWithLogs:', error);
             } finally {
                 setLoading(false);
             }
         }
-        fetchWorkouts();
+        fetchWorkoutsWithLogs();
     }, []);
 
     return (
@@ -55,20 +51,18 @@ export default function WorkoutsGrid() {
             {loading ? (
                 <p>Loading Workouts</p>
             ) : (
-                workouts.length === 0 ? (
+                workoutsWithLogs.length === 0 ? (
                     <p>No workouts found. Time to add some!</p>
                 ) : (
                     <div className="workout-list">
-                        {workouts.map((workout) => (
+                        {workoutsWithLogs.map((workout) => (
                             <div key={workout._id} className="workout-entry">
                                 <strong>
                                     {workout.name}
                                 </strong>
+
                                 <div className="workout-entry-btns">
-                                    <button className="button-detail">
-                                        Start
-                                    </button>
-                                    <button className="button-delete" onClick={() => handleDelete(workout._id!)}>
+                                    <button className="button-delete" onClick={() => handleDelete(workout._id)}>
                                         Delete
                                     </button>
                                 </div>
@@ -78,6 +72,5 @@ export default function WorkoutsGrid() {
                 )
             )}
         </div>
-
     )
 }

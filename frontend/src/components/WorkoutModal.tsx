@@ -2,7 +2,6 @@ import { useState } from 'react';
 import '../styles/WorkoutModal.css'
 import ExerciseSearch from "./ExerciseSearch";
 import type { PendingExercise, Exercise } from "../types/interface"
-
 interface WorkoutModalProps {
     onClose: () => void;
 }
@@ -18,14 +17,28 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
             name: exercise.name,
             sets: 1,
             reps: 1,
-            weight: 0,
+            weight: 1,
         };
 
         setSelectedExercises([...selectedExercises, newPendingExercise]);
         console.log("exercise wurde hinzugefügt")
     }
 
+    const handleExerciseChange = (exerciseId: string, field: 'sets' | 'reps' | 'weight', value: number) => {
+        const updatedExercises = selectedExercises.map(ex => {
+            if (ex.exerciseId === exerciseId) {
+                return { ...ex, [field]: value };
+            }
+
+            return ex;
+        });
+
+        setSelectedExercises(updatedExercises);
+    }
+
     const handleSave = async () => {
+
+
         if (!workoutName.trim()) {
             alert("pls enter a workout name!")
             return;
@@ -59,7 +72,7 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
             const savedWorkout = await response.json();
             const newWorkoutId = savedWorkout._id;
 
-            const logPromises = selectedExercises.map(ex => {
+            const logPromises = selectedExercises.map(async (ex) => {
                 const workoutLogData = {
                     workoutId: newWorkoutId,
                     exerciseId: ex.exerciseId,
@@ -68,11 +81,18 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
                     weight: ex.weight
                 };
 
-                return fetch('http://localhost:3000/api/workoutlogs', {
+                const logResponse =  await fetch('http://localhost:3000/api/workoutlogs', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(workoutLogData)
                 });
+
+                if (!logResponse.ok) {
+                    const errorData = await logResponse.json();
+                    throw new Error(`Fehler bei ${ex.name}: ${errorData.message}`);
+                }
+
+                return logResponse.json();
             });
 
             await Promise.all(logPromises);
@@ -108,9 +128,30 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
                 {selectedExercises.map((selectedExercise) => (
                     <div key={selectedExercise.exerciseId} className="selected-exercises">
                         <strong>{selectedExercise.name}</strong>
-                        <input type="number" id="sets-input" min="1" max="20"/>
-                        <input type="number" id="reps-input" min="1" max="100" />
-                        <input type="number" id="weight-input" min="1" max="500" />
+                        <input
+                            type="number"
+                            value={selectedExercise.sets}
+                            onChange={(e) => handleExerciseChange(selectedExercise.exerciseId, 'sets', parseInt(e.target.value) || 0) }
+                            id="sets-input"
+                            min="1"
+                            max="20"
+                        />
+                        <input
+                            type="number"
+                            value={selectedExercise.reps}
+                            onChange={(e) => handleExerciseChange(selectedExercise.exerciseId, 'reps', parseInt(e.target.value) || 0) }
+                            id="reps-input"
+                            min="1"
+                            max="100"
+                        />
+                        <input
+                            type="number"
+                            value={selectedExercise.weight}
+                            onChange={(e) => handleExerciseChange(selectedExercise.exerciseId, 'weight', parseInt(e.target.value) || 0) }
+                            id="weight-input"
+                            min="1"
+                            max="500"
+                        />
                     </div>
                 ))}
 

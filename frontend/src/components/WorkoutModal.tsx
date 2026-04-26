@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import '../styles/WorkoutModal.css'
+import '../styles/WorkoutModal.css';
+import ExerciseSearch from './ExerciseSearch';
+import type { PendingExercise, Exercise } from '../types/interface';
 
 interface WorkoutModalProps {
     onClose: () => void;
@@ -8,10 +10,42 @@ interface WorkoutModalProps {
 export default function WorkoutModal({onClose}:WorkoutModalProps) {
     const [workoutName, setWorkoutName] = useState("");
     const [workoutNotes, setWorkoutNotes] = useState("");
+    const [selectedExercises, setSelectedExercises] = useState<PendingExercise[]>([]);
+
+    const handleAddExercise = (exercise: Exercise ) => {
+        const newPendingExercise: PendingExercise = {
+            exerciseId: exercise._id!,
+            name: exercise.name,
+            sets: 1,
+            reps: 1,
+            weight: 1,
+        };
+
+        setSelectedExercises([...selectedExercises, newPendingExercise]);
+    }
+
+    const handleExerciseChange = (exerciseId: string, field: 'sets' | 'reps' | 'weight', value: number) => {
+        const updatedExercises = selectedExercises.map(ex => {
+            if (ex.exerciseId === exerciseId) {
+                return { ...ex, [field]: value };
+            }
+
+            return ex;
+        });
+
+        setSelectedExercises(updatedExercises);
+    }
 
     const handleSave = async () => {
+
+
         if (!workoutName.trim()) {
             alert("pls enter a workout name!")
+            return;
+        }
+
+        if (selectedExercises.length === 0) {
+            alert("Please add at least one exercise!")
             return;
         }
 
@@ -30,13 +64,41 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
                 body: JSON.stringify(newWorkout)
             });
 
-            if (response.ok) {
-                console.log("Workout succesfully postet");
-                onClose();
-            } else {
-                console.log("Failed to post new workout")
-                alert("Something went wrong with posting")
+            if (!response.ok) {
+                alert("Failed to create workout")
+                return;
             }
+
+            const savedWorkout = await response.json();
+            const newWorkoutId = savedWorkout._id;
+
+            const logPromises = selectedExercises.map(async (ex) => {
+                const workoutLogData = {
+                    workoutId: newWorkoutId,
+                    exerciseId: ex.exerciseId,
+                    sets: ex.sets,
+                    reps: ex.reps,
+                    weight: ex.weight
+                };
+
+                const logResponse =  await fetch('http://localhost:3000/api/workoutlogs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(workoutLogData)
+                });
+
+                if (!logResponse.ok) {
+                    const errorData = await logResponse.json();
+                    throw new Error(`Fehler bei ${ex.name}: ${errorData.message}`);
+                }
+
+                return logResponse.json();
+            });
+
+            await Promise.all(logPromises);
+            console.log("Workout and all exercises successfully posted!");
+            onClose();
+
         } catch(error) {
             console.error("Error connecting to the server:", error);
             alert("Could not connect to the backend");
@@ -60,6 +122,35 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
                     value={workoutNotes}
                     onChange={(e) => setWorkoutNotes(e.target.value)}
                 />
+
+                <ExerciseSearch onSelectedExercise={handleAddExercise}/>
+
+                {selectedExercises.map((selectedExercise) => (
+                    <div key={selectedExercise.exerciseId} className="selected-exercises">
+                        <strong>{selectedExercise.name}</strong>
+                        <input
+                            type="number"
+                            value={selectedExercise.sets}
+                            onChange={(e) => handleExerciseChange(selectedExercise.exerciseId, 'sets', parseInt(e.target.value) || 0) }
+                            min="1"
+                            max="20"
+                        />
+                        <input
+                            type="number"
+                            value={selectedExercise.reps}
+                            onChange={(e) => handleExerciseChange(selectedExercise.exerciseId, 'reps', parseInt(e.target.value) || 0) }
+                            min="1"
+                            max="100"
+                        />
+                        <input
+                            type="number"
+                            value={selectedExercise.weight}
+                            onChange={(e) => handleExerciseChange(selectedExercise.exerciseId, 'weight', parseInt(e.target.value) || 0) }
+                            min="1"
+                            max="500"
+                        />
+                    </div>
+                ))}
 
                 <div className="modal-actions">
                     <button className="cancel-button" onClick={onClose}>Cancel</button>

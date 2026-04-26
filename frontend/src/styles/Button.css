@@ -1,3 +1,4 @@
+/* --- CREATE BUTTON --- */
 .create-button {
     display: flex;
     justify-content: center;
@@ -15,4 +16,33 @@
     background-color: black;
     color: white;
     scale: 110%;
+}
+
+/* --- DETAIL BUTTON --- */
+.button-detail {
+    color: white;
+    background: darkgreen;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.4rem;
+}
+
+.button-detail:hover {
+    background-color: green;
+    scale: 120%;
+}
+
+/* --- DELETE BUTTON --- */
+.button-delete {
+    color: white;
+    background: darkred;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.4rem;
+    margin-left: 1rem;
+}
+
+.button-delete:hover {
+    background-color: red;
+    scale: 120%;
 }

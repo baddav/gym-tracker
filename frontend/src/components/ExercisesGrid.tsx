@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import type {Exercise} from "../types/interface.ts";
 import '../styles/ExercisesGrid.css'
+import '../styles/Button.css'
 
 interface ExerciseGridProps {
     onEditClick: (exercise: Exercise) => void;
@@ -82,4 +83,3 @@ export default function ExercisesGrid({ onEditClick }: ExerciseGridProps) {
         </div>
     )
 };
-

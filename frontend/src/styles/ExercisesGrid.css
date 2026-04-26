@@ -13,31 +13,3 @@
     align-items: center;
     justify-content: space-between;
 }
-
-
-.button-detail {
-    color: white;
-    background: darkgreen;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.4rem;
-}
-
-.button-detail:hover {
-    background-color: green;
-    scale: 120%;
-}
-
-.button-delete {
-    color: white;
-    background: darkred;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.4rem;
-    margin-left: 1rem;
-}
-
-.button-delete:hover {
-    background-color: red;
-    scale: 120%;
-}

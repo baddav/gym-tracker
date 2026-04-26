@@ -7,7 +7,6 @@ export const Navbar = () => {
         <Link to={"/"} className="nav-title">Gym Tracker</Link>
         <ul>
             <li><NavLink to="/">Workouts</NavLink></li>
-            <li><NavLink to="/history">History</NavLink></li>
             <li><NavLink to="/exercises">Exercises</NavLink></li>
         </ul>
         </nav>

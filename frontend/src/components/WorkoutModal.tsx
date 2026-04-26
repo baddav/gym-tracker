@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import '../styles/WorkoutModal.css'
-import ExerciseSearch from "./ExerciseSearch";
-import type { PendingExercise, Exercise } from "../types/interface"
+import '../styles/WorkoutModal.css';
+import ExerciseSearch from './ExerciseSearch';
+import type { PendingExercise, Exercise } from '../types/interface';
+
 interface WorkoutModalProps {
     onClose: () => void;
 }
@@ -21,7 +22,6 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
         };
 
         setSelectedExercises([...selectedExercises, newPendingExercise]);
-        console.log("exercise wurde hinzugefügt")
     }
 
     const handleExerciseChange = (exerciseId: string, field: 'sets' | 'reps' | 'weight', value: number) => {
@@ -132,7 +132,6 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
                             type="number"
                             value={selectedExercise.sets}
                             onChange={(e) => handleExerciseChange(selectedExercise.exerciseId, 'sets', parseInt(e.target.value) || 0) }
-                            id="sets-input"
                             min="1"
                             max="20"
                         />
@@ -140,7 +139,6 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
                             type="number"
                             value={selectedExercise.reps}
                             onChange={(e) => handleExerciseChange(selectedExercise.exerciseId, 'reps', parseInt(e.target.value) || 0) }
-                            id="reps-input"
                             min="1"
                             max="100"
                         />
@@ -148,7 +146,6 @@ export default function WorkoutModal({onClose}:WorkoutModalProps) {
                             type="number"
                             value={selectedExercise.weight}
                             onChange={(e) => handleExerciseChange(selectedExercise.exerciseId, 'weight', parseInt(e.target.value) || 0) }
-                            id="weight-input"
                             min="1"
                             max="500"
                         />

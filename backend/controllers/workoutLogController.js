@@ -1,5 +1,5 @@
 const WorkoutLog = require('../models/workoutLog');
-const Workout = require('../models/workouts')
+const Workout = require('../models/workouts');
 
 
 const createWorkoutLog = async (req, res) => {

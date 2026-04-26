@@ -27,6 +27,7 @@ export default function WorkoutsGrid() {
     }
 
     useEffect(() => {
+
         const fetchWorkoutsWithLogs = async () => {
             try {
                 const response = await fetch('http://localhost:3000/api/workoutLogs/full');
@@ -42,8 +43,17 @@ export default function WorkoutsGrid() {
             } finally {
                 setLoading(false);
             }
-        }
+        };
+
         fetchWorkoutsWithLogs();
+
+        const intervalId = setInterval(() => {
+            fetchWorkoutsWithLogs();
+        }, 2000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 
     return (

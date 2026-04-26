@@ -52,6 +52,14 @@ export default function ExercisesGrid({ onEditClick }: ExerciseGridProps) {
         };
 
         fetchExercises();
+
+        const intervalId = setInterval(() => {
+            fetchExercises();
+        }, 2000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 
     return (

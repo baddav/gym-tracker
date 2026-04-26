@@ -37,4 +37,7 @@ To start this application on your local machine, follow these steps:
    ```bash
    npm start
 
-
+5. **Seed the database**
+   From the backend folder, run:
+   ```bash
+   node seed.js

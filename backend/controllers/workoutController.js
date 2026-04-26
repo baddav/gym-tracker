@@ -1,4 +1,5 @@
 const Workout = require('../models/workouts');
+const WorkoutLog = require('../models/workoutLog')
 
 const createWorkout = async (req, res) => {
     try {
@@ -29,7 +30,13 @@ const deleteWorkout = async(req, res) => {
             return res.status(404).json({message: "Workout not found"});
         }
 
-        res.status(200).json(deletedWorkout);
+        await WorkoutLog.deleteMany({ workoutId: id});
+
+        res.status(200).json({
+            message: "Workout and associated logs deleted successfully",
+            deletedWorkout
+        });
+
     } catch (error) {
         res.status(400).json({message: error.message});
     }

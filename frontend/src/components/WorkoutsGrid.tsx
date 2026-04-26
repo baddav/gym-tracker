@@ -57,14 +57,29 @@ export default function WorkoutsGrid() {
                     <div className="workout-list">
                         {workoutsWithLogs.map((workout) => (
                             <div key={workout._id} className="workout-entry">
-                                <strong>
-                                    {workout.name}
-                                </strong>
-
-                                <div className="workout-entry-btns">
-                                    <button className="button-delete" onClick={() => handleDelete(workout._id)}>
-                                        Delete
-                                    </button>
+                                <div className="workout-entry-header">
+                                    <strong>
+                                        {workout.name}
+                                    </strong>
+                                    <div className="workout-entry-btns">
+                                        <button className="button-delete" onClick={() => handleDelete(workout._id)}>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="workoutLogs-collection">
+                                    {workout.logs.map((log) =>(
+                                        <div key={log._id} className="workoutLog-entry">
+                                            <strong>
+                                                Exercise: {log.exerciseId.name}
+                                            </strong>
+                                            <div className="exercise-stats">
+                                                <span><strong>Sets:</strong> {log.sets}</span>
+                                                <span><strong>Reps:</strong> {log.reps}</span>
+                                                <span><strong>Weight:</strong> {log.weight} kg</span>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         ))}

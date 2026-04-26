@@ -1,16 +1,68 @@
 .workout-list {
     display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
     margin: 2rem;
 }
 
 .workout-entry {
     display: flex;
-    padding: 1rem;
-    background-color: lightblue;
-    border-radius: 0.5rem;
-    text-align: center;
-    align-items: center;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.05), 0 0.1rem 0.2rem rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.2s ease;
+}
+
+.workout-entry:hover {
+    transform: translateY(-0.3rem);
+}
+
+.workout-entry-header {
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 0.1rem solid #f3f4f6;
+}
+
+.workout-entry-header strong {
+    font-size: 1.3rem;
+    color: #111827;
+    text-transform: capitalize;
+}
+
+.workoutLogs-collection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.workoutLog-entry {
+    background-color: #f9fafb;
+    border: 0.1rem solid #e5e7eb;
+    border-radius: 0.8rem;
+    padding: 1rem;
+}
+
+.exercise-name {
+    display: block;
+    color: #374151;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.exercise-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #4b5563;
+}
+
+.exercise-stats span {
+    background-color: #e5e7eb;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.5rem;
 }

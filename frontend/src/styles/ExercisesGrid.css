@@ -1,15 +1,40 @@
 .exercise-list {
     display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
     margin: 2rem;
 }
 
 .exercise-entry {
     display: flex;
-    padding: 1rem;
-    background-color: lightblue;
-    border-radius: 0.5rem;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.05), 0 0.1rem 0.2rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.exercise-entry:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.9rem 1.3rem rgba(0, 0, 0, 0.1);
+}
+
+.exercise-entry strong {
+    font-size: 1.2rem;
+    color: #111827;
+    text-transform: capitalize;
+}
+
+.exercise-entry-btns {
+    display: flex;
+    gap: 0.75rem;
+}
+
+
+
+
+
+
+

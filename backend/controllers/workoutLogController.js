@@ -38,4 +38,32 @@ const getWorkoutsWithLogs = async(req, res) => {
     }
 }
 
-module.exports = { createWorkoutLog, getWorkoutLogs, getWorkoutsWithLogs };
+const getWorkoutsWithLogsByRange = async(req, res) => {
+
+    const {start, end} = req.query;
+
+    if (!start || !end) {
+        return res.status(400).json({ message: "start and end are required" });
+    }
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    if (isNaN(startDate) || isNaN(endDate)) {
+        return res.status(400).json({ message: "Invalid date format. Use YYYY-MM-DD" });
+    }
+
+    try {
+        const workouts = await Workout.find({createdAt: { $gte: startDate, $lt: endDate }}).lean();
+        const workoutsWithLogs = await Promise.all(workouts.map(async (workout) => {
+            const logs = await WorkoutLog.find({workoutId: workout._id}).populate('exerciseId', 'name').lean();
+            return {...workout, logs: logs};
+        }));
+
+        res.status(200).json(workoutsWithLogs)
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+}
+
+    module.exports = { createWorkoutLog, getWorkoutLogs, getWorkoutsWithLogs, getWorkoutsWithLogsByRange };
